@@ -16,11 +16,5 @@ func main() {
 	
 	eventos.RegisterRoutes(r, dbHundle)
 
-
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"port": "Conectou mano",
-		})
-	})
 	r.Run()
 }
