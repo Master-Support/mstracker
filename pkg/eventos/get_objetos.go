@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h handler) GetEventos(ctx *gin.Context) {
-	var s []models.Status
+func (h handler) GetObjetos(ctx *gin.Context) {
+	var s []models.StatusObjeto
 
 	if result := h.DB.Find(&s); result.Error != nil {
 		ctx.AbortWithError(http.StatusNotFound, result.Error)

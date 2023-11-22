@@ -26,7 +26,7 @@ func ConectaDB() *gorm.DB {
         log.Fatalln(err)
     }
 
-    db.AutoMigrate(&models.Status{})
+    db.AutoMigrate(&models.StatusObjeto{})
 
     fmt.Println("Conexão bem-sucedida!")
 

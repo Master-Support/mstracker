@@ -2,7 +2,7 @@ package models
 
 import "gorm.io/gorm"
 
-type Status struct {
+type StatusObjeto struct {
 	gorm.Model
 	NomeObjeto            string `json:"nomeObjeto"`
 	CodigoObjeto          string `json:"codigoObjeto"`

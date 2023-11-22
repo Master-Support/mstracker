@@ -48,12 +48,12 @@ type Unidade struct {
 	} `json:"endereco"`
 }
 
-func ObterStatus(codigoObjeto string) (models.Status, error) {
+func ObterStatus(codigoObjeto string) (models.StatusObjeto, error) {
 	url := "https://api.correios.com.br/srorastro/v1/objetos?codigosObjetos=" + codigoObjeto + "&resultado=U"
 	
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return models.Status{}, err
+		return models.StatusObjeto{}, err
 	}
 
 	// Adiciona o token de acesso ao cabeçalho "Authorization"
@@ -66,31 +66,31 @@ func ObterStatus(codigoObjeto string) (models.Status, error) {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return models.Status{}, err
+		return models.StatusObjeto{}, err
 	}
 	defer resp.Body.Close()
 
 	// Lê o corpo da resposta
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return models.Status{},  err
+		return models.StatusObjeto{},  err
 	}
 
 	// Decodificar o JSON da resposta
 	var response Response
 	err = json.Unmarshal(body, &response)
 	if err != nil {
-		return models.Status{}, err
+		return models.StatusObjeto{}, err
 	}
 
 	// Verifica se há eventos antes de acessar os dados
 	if len(response.Objetos) == 0 || len(response.Objetos[0].Eventos) == 0 {
-		return models.Status{}, fmt.Errorf("Nenhum evento encontrado para o objeto %s", codigoObjeto)
+		return models.StatusObjeto{}, fmt.Errorf("Nenhum evento encontrado para o objeto %s", codigoObjeto)
 	}
 
 	// Cria a instância da struct Status
-	status := models.Status{
-		NomeObjeto:            codigoObjeto,                            
+	status := models.StatusObjeto{
+		CodigoObjeto:            codigoObjeto,                            
 		DataPrevistaDeEntrega: response.Objetos[0].DtPrevista,         
 		StatusObjeto:          response.Objetos[0].Eventos[0].Descricao,
 		Localizacao:           response.Objetos[0].Eventos[0].Unidade.Endereco.Cidade,

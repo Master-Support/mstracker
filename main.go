@@ -13,8 +13,9 @@ func main() {
 
 	r := gin.Default()
 	dbHundle := config.ConectaDB()
-
+	
 	eventos.RegisterRoutes(r, dbHundle)
+
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{

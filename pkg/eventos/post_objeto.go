@@ -13,7 +13,7 @@ type Codigo struct {
 	NomeObjeto string `json:"nomeObjeto"`
 }
 
-func (h handler) AddStatus(ctx *gin.Context) {
+func (h handler) PostObjeto(ctx *gin.Context) {
 	codigo := Codigo{}
 
 	if err := ctx.BindJSON(&codigo); err != nil {
@@ -27,10 +27,13 @@ func (h handler) AddStatus(ctx *gin.Context) {
 		return
 	}
 
-	var s models.Status
+	var s models.StatusObjeto
 
 	data, _ := time.Parse("2006-01-02T15:04:05", body.DataPrevistaDeEntrega)
-
+	if err != nil {
+		ctx.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
 	dataFormatada := data.Format("02/01/2006")
 
 	s.NomeObjeto = codigo.NomeObjeto
