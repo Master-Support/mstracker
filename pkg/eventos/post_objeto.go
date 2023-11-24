@@ -46,6 +46,7 @@ func (h handler) PostObjeto(ctx *gin.Context) {
 		ctx.AbortWithError(http.StatusNotFound, result.Error)
 		return
 	}
+	h.DB.Updates(&s)
 
 	ctx.JSON(http.StatusCreated, &s)
 }

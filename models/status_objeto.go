@@ -1,11 +1,8 @@
 package models
 
-import "gorm.io/gorm"
-
 type StatusObjeto struct {
-	gorm.Model
+	CodigoObjeto          string `json:"codigoObjeto" gorm:"primaryKey"`
 	NomeObjeto            string `json:"nomeObjeto"`
-	CodigoObjeto          string `json:"codigoObjeto"`
 	DataPrevistaDeEntrega string `json:"dataPrevistaDeEntrega"`
 	StatusObjeto          string `json:"statusObjeto"`
 	Localizacao           string `json:"localizacao"`
