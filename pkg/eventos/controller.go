@@ -15,7 +15,7 @@ func RegisterRoutes(router *gin.Engine, db *gorm.DB) {
     }
     routes := router.Group("/objetos-correios")
     routes.POST("", h.PostObjeto)
-    routes.PUT("/:id", h.UpdateStatus)
+    routes.PUT("/update", h.UpdateStatus)
     routes.GET("/objetos", h.GetObjetos)
     routes.GET("/:id", h.GetObjeto)
 }

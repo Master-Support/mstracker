@@ -1,7 +1,6 @@
 package eventos
 
 import (
-	"fmt"
 	"net/http"
 
 	rastroapi "example.com/mstracker/api_correios/rastro_api"
@@ -9,46 +8,72 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type UpdateStatusRequestBody struct {
-	StatusObjeto          string `json:"statusObjeto"`
-	Localizacao           string `json:"localizacao"`
-}
-
-type CodigoUpdate struct {
+type CodigoParaRealziarUpdate struct {
 	CodigoObjeto *string `json:"codigoObjeto"`
 }
 
 func (h handler) UpdateStatus(ctx *gin.Context) {
-	codigo := CodigoUpdate{}
+	codigo := CodigoParaRealziarUpdate{}
 
-    
-    // body := UpdateStatusRequestBody{}
-
-    // if err := ctx.BindJSON(&body); err != nil {
-    //     ctx.AbortWithError(http.StatusBadRequest, err)
-    //     return
-    // }
+	if err := ctx.BindJSON(&codigo); err != nil {
+		ctx.AbortWithError(http.StatusBadRequest, err)
+		return
+	}
 
 	body, err := rastroapi.ObterStatus(*codigo.CodigoObjeto)
 	if err != nil {
 		ctx.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
-	fmt.Println(body)
 
-	id := ctx.Param("id")
+	id := ctx.Param(body.CodigoObjeto)
+	var s models.StatusObjeto
 
-    var updateStatus models.StatusObjeto
+	if result := h.DB.First(&s, id); result.Error != nil {
+		ctx.AbortWithError(http.StatusNotFound, result.Error)
+		return
+	}
 
-    if result := h.DB.First(&updateStatus, id); result.Error != nil {
-        ctx.AbortWithError(http.StatusNotFound, result.Error)
-        return
-    }
+	s.CodigoObjeto = body.CodigoObjeto
+	s.NomeObjeto = "TESTANDO UPDATE NOVAMENTE"
+	s.DataPrevistaDeEntrega = body.DataPrevistaDeEntrega
+	s.StatusObjeto = body.StatusObjeto
+	s.Localizacao = body.Localizacao
 
-    updateStatus.StatusObjeto = "TESTANDO"
-    updateStatus.Localizacao = "TESTANDO"
+	h.DB.Save(&s)
 
-    h.DB.Save(&updateStatus)
+	ctx.JSON(http.StatusOK, &s)
 
-    ctx.JSON(http.StatusOK, &updateStatus)
 }
+
+// codigo := CodigoUpdate{}
+
+// // body := UpdateStatusRequestBody{}
+
+// // if err := ctx.BindJSON(&body); err != nil {
+// //     ctx.AbortWithError(http.StatusBadRequest, err)
+// //     return
+// // }
+
+// body, err := rastroapi.ObterStatus(*codigo.CodigoObjeto)
+// if err != nil {
+// 	ctx.AbortWithError(http.StatusInternalServerError, err)
+// 	return
+// }
+// fmt.Println(body)
+
+// id := ctx.Param("codigo_objeto")
+
+// var updateStatus models.StatusObjeto
+
+// if result := h.DB.First(&updateStatus, id); result.Error != nil {
+// 	ctx.AbortWithError(http.StatusNotFound, result.Error)
+// 	return
+// }
+
+// updateStatus.StatusObjeto = "TESTANDO"
+// updateStatus.Localizacao = "TESTANDO"
+
+// h.DB.Save(&updateStatus)
+
+// ctx.JSON(http.StatusOK, &updateStatus)

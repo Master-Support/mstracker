@@ -8,7 +8,7 @@ import (
 )
 
 func (h handler) GetObjeto(ctx *gin.Context) {
-    id := ctx.Param("id")
+    id := ctx.Param("codigo_objeto")
 
     var s models.StatusObjeto
 
