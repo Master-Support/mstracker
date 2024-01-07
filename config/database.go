@@ -17,8 +17,7 @@ func ConectaDB() *gorm.DB {
 			os.Getenv("DB_PASSWORD"),
 			os.Getenv("DB_NAME"),
 			os.Getenv("DB_HOST")),
-
-		PreferSimpleProtocol: true,
+			
 	}), &gorm.Config{})
 
     if err != nil {

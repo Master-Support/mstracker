@@ -1,23 +1,24 @@
-FROM golang:alpine as builder
+# Use a multi-stage build for a smaller final image
+FROM golang:1.21.3
 
-WORKDIR /go/src/app
+WORKDIR /usr/src/app
+
+# Install air for live reloading (if needed)
+RUN go install github.com/cosmtrek/air@latest
 
 COPY . .
+RUN go mod tidy
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /go/bin/mstracker_api main.go
+# Build the Go application
+# RUN go build -o /go/bin/mstracker_api ./cmd/main.go
 
-FROM alpine:latest
+# # Use a smaller image for the final stage
+# FROM alpine:latest
 
-WORKDIR /app
+# WORKDIR /app
 
-COPY --from=builder /go/bin/mstracker_api .
+# COPY --from=builder /go/bin/mstracker_api .
 
-EXPOSE 8080
+# EXPOSE 8080
 
-ENV DB_USER=postgres
-ENV DB_PASSWORD=postgres
-ENV DB_HOST=172.17.0.2
-ENV DB_PORT=5432
-ENV DB_NAME=mstracker
-
-CMD ["./mstracker_api"]
+# CMD ["./mstracker_api"]

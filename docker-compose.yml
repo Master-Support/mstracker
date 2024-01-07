@@ -1,29 +1,27 @@
 version: '3.8'
 
 services:
-
   mstracker_api:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: mstracker_api
+    env_file:
+      - .env
     ports:
       - "8080:8080"
-    depends_on:
-      - postgres
-    environment:
-      DB_USER: postgres
-      DB_PASSWORD: postgres
-      DB_HOST: 172.17.0.2
-      DB_PORT: 5432
-      DB_NAME: mstracker
+    volumes:
+      - .:/go/src/app
+    command: air cmd/main.go -b 0.0.0.0
 
-  postgres:
-    image: postgres
-    container_name: appms
+  db:
+    image: postgres:alpine
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     ports:
       - "5432:5432"
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
 
+volumes:
+  postgres-db:
