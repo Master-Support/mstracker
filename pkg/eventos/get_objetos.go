@@ -15,5 +15,14 @@ func (h handler) GetObjetos(ctx *gin.Context) {
 		return
 	}
 
+	for _, envio := range envios {
+		if envio.StatusObjeto != "Objeto entregue ao destinatário"{
+			//quando um objeto já estiver sido entregue ele ira para outra categoria de objetos entregues.
+			//caso ao contrario o objeto será exibido em envios
+			return 
+		}
+	}
+
+
 	ctx.JSON(http.StatusOK, gin.H{"envios": envios})  // Use "envios" como chave no JSON
 }
