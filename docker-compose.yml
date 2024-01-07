@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+
+  mstracker_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mstracker_api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: 172.17.0.2
+      DB_PORT: 5432
+      DB_NAME: mstracker
+
+  postgres:
+    image: postgres
+    container_name: appms
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
