@@ -1,47 +1,46 @@
 package eventos
 
 import (
-	"net/http"
-
 	rastroapi "example.com/mstracker/api_correios/rastro_api"
 	"example.com/mstracker/models"
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
-type CodigoParaRealziarUpdate struct {
-	CodigoObjeto *string `json:"codigoObjeto"`
-}
-
 func (h handler) UpdateStatus(ctx *gin.Context) {
-	codigo := CodigoParaRealziarUpdate{}
+	var codigos []string
 
-	if err := ctx.BindJSON(&codigo); err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
-		return
-	}
-
-	body, err := rastroapi.ObterStatus(*codigo.CodigoObjeto)
-	if err != nil {
-		ctx.AbortWithError(http.StatusInternalServerError, err)
-		return
-	}
-
-	id := ctx.Param(body.CodigoObjeto)
-	var s models.StatusObjeto
-
-	if result := h.DB.First(&s, id); result.Error != nil {
+	query := "SELECT codigo_objeto FROM status_objetos WHERE status_objeto = 'Objeto entregue ao destinatário'"
+	result := h.DB.Raw(query).Scan(&codigos)
+	if result.Error != nil {
 		ctx.AbortWithError(http.StatusNotFound, result.Error)
 		return
 	}
 
-	s.CodigoObjeto = body.CodigoObjeto
-	s.NomeObjeto = body.NomeObjeto
-	s.DataPrevistaDeEntrega = body.DataPrevistaDeEntrega
-	s.StatusObjeto = body.StatusObjeto
-	s.Localizacao = body.Localizacao
+	for _, codigoObjeto := range codigos {
+		body, err := rastroapi.ObterStatus(codigoObjeto)
 
-	h.DB.Save(&s)
+		if err != nil {
+			ctx.AbortWithError(http.StatusInternalServerError, err)
+			return
+		}
 
-	ctx.JSON(http.StatusOK, &s)
+		var s models.StatusObjeto
+		if result := h.DB.First(&s, "codigo_objeto = ?", body.CodigoObjeto); result.Error != nil {
+			ctx.AbortWithError(http.StatusNotFound, result.Error)
+			return
+		}
 
+		s.CodigoObjeto = body.CodigoObjeto
+		s.NomeObjeto = body.NomeObjeto
+		s.DataPrevistaDeEntrega = body.DataPrevistaDeEntrega
+		s.StatusObjeto = body.StatusObjeto
+		s.Localizacao = body.Localizacao
+
+		h.DB.Save(&s)
+
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "Atualização realizada com sucesso"})
 }
