@@ -8,14 +8,14 @@ import (
 )
 
 func (h handler) GetObjeto(ctx *gin.Context) {
-    id := ctx.Param("codigo_objeto")
+	id := ctx.Param("id")
 
-    var s models.StatusObjeto
+	var s models.StatusObjeto
 
-    if result := h.DB.First(&s, id); result.Error != nil {
-        ctx.AbortWithError(http.StatusNotFound, result.Error)
-        return
-    }
+	if result := h.DB.First(&s, id); result.Error != nil {
+		ctx.AbortWithError(http.StatusNotFound, result.Error)
+		return
+	}
 
-    ctx.JSON(http.StatusOK, &s)
+	ctx.JSON(http.StatusOK, &s)
 }
