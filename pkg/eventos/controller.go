@@ -6,16 +6,16 @@ import (
 )
 
 type handler struct {
-    DB *gorm.DB
+	DB *gorm.DB
 }
 
 func RegisterRoutes(router *gin.Engine, db *gorm.DB) {
-    h := &handler{
-        DB: db,
-    }
-    routes := router.Group("/objetos-correios")
-    routes.POST("", h.PostObjeto)
-    routes.PUT("/update", h.UpdateStatus)
-    routes.GET("/objetos", h.GetObjetos)
-    routes.GET("/:id", h.GetObjeto)
+	h := &handler{
+		DB: db,
+	}
+	routes := router.Group("/api/v1/envio")
+	routes.POST("", h.PostObjeto)
+	routes.PUT("/atualizar", h.UpdateStatus)
+	routes.GET("/objetos", h.GetObjetos)
+	routes.GET("/objeto/:id", h.GetObjeto)
 }
