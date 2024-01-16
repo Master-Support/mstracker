@@ -1,29 +1,30 @@
 package eventos
 
 import (
-	"net/http"
-	"time"
 	rastroapi "example.com/mstracker/api_correios/rastro_api"
 	"example.com/mstracker/models"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"time"
 )
 
 type Codigo struct {
 	CodigoObjeto *string `json:"codigoObjeto"`
-	NomeObjeto string `json:"nomeObjeto"`
+	NomeObjeto   string  `json:"nomeObjeto"`
 }
 
 func (h handler) PostObjeto(ctx *gin.Context) {
 	codigo := Codigo{}
 
 	if err := ctx.BindJSON(&codigo); err != nil {
-		ctx.AbortWithError(http.StatusBadRequest, err)
+		_ = ctx.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 
 	body, err := rastroapi.ObterStatus(*codigo.CodigoObjeto)
 	if err != nil {
-		ctx.AbortWithError(http.StatusInternalServerError, err)
+
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, "O objeto nao esta cadastrado na base de dados dos correios!")
 		return
 	}
 
@@ -31,7 +32,7 @@ func (h handler) PostObjeto(ctx *gin.Context) {
 
 	data, _ := time.Parse("2006-01-02T15:04:05", body.DataPrevistaDeEntrega)
 	if err != nil {
-		ctx.AbortWithError(http.StatusInternalServerError, err)
+		_ = ctx.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 	dataFormatada := data.Format("02/01/2006")
@@ -43,7 +44,7 @@ func (h handler) PostObjeto(ctx *gin.Context) {
 	s.Localizacao = body.Localizacao
 
 	if result := h.DB.Create(&s); result.Error != nil {
-		ctx.AbortWithError(http.StatusNotFound, result.Error)
+		_ = ctx.AbortWithError(http.StatusNotFound, result.Error)
 		return
 	}
 	h.DB.Updates(&s)
