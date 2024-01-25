@@ -13,9 +13,22 @@ func RegisterRoutes(router *gin.Engine, db *gorm.DB) {
 	h := &handler{
 		DB: db,
 	}
+
+	router.Use(corsMiddleware())
+
 	routes := router.Group("/api/v1/envio")
 	routes.POST("", h.PostObjeto)
 	routes.PUT("/atualizar", h.UpdateStatus)
 	routes.GET("/objetos", h.GetObjetos)
 	routes.GET("/objeto/:id", h.GetObjeto)
+}
+
+func corsMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, CREATE")
+		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
+
+		c.Next()
+	}
 }

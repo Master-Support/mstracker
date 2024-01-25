@@ -4,9 +4,24 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8512fa9b-821a-4bba-89e5-b329c79457eb" name="Changes" comment="feat: adcionando dependecias ao gomod">
+    <list default="true" id="8512fa9b-821a-4bba-89e5-b329c79457eb" name="Changes" comment="feat: criando requisição para atulizar todo o banco com novos status para os objetos">
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8720ea49-fb85-4d73-afeb-a219c303fbc4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8720ea49-fb85-4d73-afeb-a219c303fbc4/storage_v2/_src_/database/postgres.edMnLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8720ea49-fb85-4d73-afeb-a219c303fbc4/storage_v2/_src_/database/postgres.edMnLQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8720ea49-fb85-4d73-afeb-a219c303fbc4/storage_v2/_src_/database/postgres.edMnLQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8720ea49-fb85-4d73-afeb-a219c303fbc4/storage_v2/_src_/database/postgres.edMnLQ/schema/public.abK9xQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pkg/eventos/controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/eventos/controller.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pkg/eventos/get_objetos.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/eventos/get_objetos.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pkg/eventos/put_objetos.go" beforeDir="false" afterPath="$PROJECT_DIR$/pkg/eventos/put_objetos.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/rotas/objetos.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/rotas/rotas.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/router.go" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +39,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$USER_HOME$/go/pkg/mod/github.com/gin-gonic/gin@v1.9.1/context.go" root0="SKIP_INSPECTION" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -36,7 +54,9 @@
   &quot;keyToString&quot;: {
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
+    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
     &quot;Docker.docker-compose.yml.db: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker/app.yml: Compose Deployment.executor&quot;: &quot;Run&quot;,
     &quot;Go Build.go build example.com/mstracker.executor&quot;: &quot;Debug&quot;,
     &quot;Go Build.go build example.com/mstracker/cmd.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
@@ -52,7 +72,7 @@
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;proofread&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;DatabaseDriversLRU&quot;: [
@@ -62,6 +82,9 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/build/docker" />
+      <recent name="$PROJECT_DIR$/build/docker/database" />
       <recent name="$PROJECT_DIR$/enum/erros_enum" />
       <recent name="$PROJECT_DIR$/enum" />
     </key>
@@ -105,13 +128,28 @@
       <filePath value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="buildOnly" value="true" />
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="docker-deploy" factoryName="docker-compose.yml" temporary="true">
       <deployment type="docker-compose.yml">
         <settings />
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yml.db: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.txt.db: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
           <option name="envFilePath" value="" />
@@ -120,19 +158,31 @@
               <option value="db" />
             </list>
           </option>
+          <option name="sourceFilePath" value="docker-compose.txt" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yml: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
           <option name="sourceFilePath" value="docker-compose.yml" />
         </settings>
       </deployment>
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
       <item itemvalue="Go Build.go build example.com/mstracker" />
       <item itemvalue="Go Build.go build example.com/mstracker/cmd" />
+      <item itemvalue="Docker.Dockerfile" />
+      <item itemvalue="Docker.docker-compose.txt.db: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.docker-compose.yml.db: Compose Deployment" />
+        <item itemvalue="Docker.Dockerfile" />
+        <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.txt.db: Compose Deployment" />
         <item itemvalue="Go Build.go build example.com/mstracker/cmd" />
       </list>
     </recent_temporary>
@@ -169,7 +219,9 @@
     <MESSAGE value="feat: criando arquivos para adicionar mensagens de erro" />
     <MESSAGE value="feat: criando função para enviar email de relatorios" />
     <MESSAGE value="feat: adcionando dependecias ao gomod" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: adcionando dependecias ao gomod" />
+    <MESSAGE value="feat: removendo cometarios" />
+    <MESSAGE value="feat: criando requisição para atulizar todo o banco com novos status para os objetos" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: criando requisição para atulizar todo o banco com novos status para os objetos" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

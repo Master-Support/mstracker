@@ -1,24 +1,21 @@
-# Use a multi-stage build for a smaller final image
-FROM golang:1.21.3
+FROM golang:1.21.0
 
-WORKDIR /usr/src/app
+# Crie o diretório de trabalho e defina-o como diretório de trabalho
+WORKDIR /app
 
-# Install air for live reloading (if needed)
-RUN go install github.com/cosmtrek/air@latest
+# Copie os arquivos de dependências go.mod e go.sum
+COPY go.mod go.sum ./
 
-COPY . .
-RUN go mod tidy
+# Baixe os módulos Go
+RUN go mod download
 
-# Build the Go application
-# RUN go build -o /go/bin/mstracker_api ./cmd/main.go
+# Copie os arquivos Go
+COPY *.go ./
 
-# # Use a smaller image for the final stage
-# FROM alpine:latest
+RUN go build -o /mstracker
 
-# WORKDIR /app
+# Opcional: Expor a porta que o aplicativo vai escutar
+EXPOSE 8080
 
-# COPY --from=builder /go/bin/mstracker_api .
-
-# EXPOSE 8080
-
-# CMD ["./mstracker_api"]
+# Comando para executar o aplicativo
+CMD ["/mstracker"]

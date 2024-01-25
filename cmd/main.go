@@ -7,13 +7,12 @@ import (
 	_ "github.com/lib/pq"
 )
 
-
 func main() {
 	config.CarregaVariaveisDeAmbiente()
 
 	r := gin.Default()
 	dbHundle := config.ConectaDB()
-	
+
 	eventos.RegisterRoutes(r, dbHundle)
 
 	r.Run()
