@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mstracker_api:
+    build:
+      context: .
+      dockerfile: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/go/src/app
+    command: air cmd/main.go -b 0.0.0.0
+    depends_on:
+      - mstracker-postgresql
+    networks:
+      - mstracker-network
+    env_file: '.env'
+
+  mstracker-postgresql:
+    image: postgres:13s
+    container_name: mstracker-postgresql
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+    volumes:
+      - ./initdb.sh:/docker-entrypoint-initdb.d/initdb.sh
+    ports:
+      - "5432:5432"
+    networks:
+      - mstracker-network
+
+networks:
+  mstracker-network:
+    driver: bridge
