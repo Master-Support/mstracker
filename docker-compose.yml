@@ -4,7 +4,7 @@ services:
   mstracker_api:
     build:
       context: .
-      dockerfile: .
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     volumes:
@@ -17,7 +17,7 @@ services:
     env_file: '.env'
 
   mstracker-postgresql:
-    image: postgres:13s
+    image: postgres:13
     container_name: mstracker-postgresql
     environment:
       POSTGRES_DB: ${DB_NAME}

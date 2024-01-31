@@ -9,10 +9,11 @@ COPY go.mod go.sum ./
 # Baixe os módulos Go
 RUN go mod download
 
-# Copie os arquivos Go
-COPY *.go ./
+# Copie todos os arquivos Go recursivamente
+COPY . .
 
-RUN go build -o /mstracker
+# Build do aplicativo
+RUN go build -o /mstracker ./cmd
 
 # Opcional: Expor a porta que o aplicativo vai escutar
 EXPOSE 8080
