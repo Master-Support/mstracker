@@ -1,22 +1,25 @@
 FROM golang:1.21.0
 
-# Crie o diretório de trabalho e defina-o como diretório de trabalho
+# Create the working directory and set it as the working directory
 WORKDIR /app
 
-# Copie os arquivos de dependências go.mod e go.sum
+# Copy the Go dependency files go.mod and go.sum
 COPY go.mod go.sum ./
 
-# Baixe os módulos Go
+# Download Go modules
 RUN go mod download
 
-# Copie todos os arquivos Go recursivamente
+# Copy all Go files recursively
 COPY . .
 
-# Build do aplicativo
+# Install 'air' binary
+RUN go install github.com/cosmtrek/air@latest
+
+# Build the application
 RUN go build -o /mstracker ./cmd
 
-# Opcional: Expor a porta que o aplicativo vai escutar
+# Optional: Expose the port that the application will listen on
 EXPOSE 8080
 
-# Comando para executar o aplicativo
-CMD ["/mstracker"]
+# Command to run the application using 'air'
+CMD ["air", "cmd/main.go", "-b", "0.0.0.0"]

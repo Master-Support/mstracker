@@ -9,7 +9,6 @@ services:
       - "8080:8080"
     volumes:
       - .:/go/src/app
-    command: air cmd/main.go -b 0.0.0.0
     depends_on:
       - mstracker-postgresql
     networks:
