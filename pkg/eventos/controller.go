@@ -17,7 +17,6 @@ func RegisterRoutes(router *gin.Engine, db *gorm.DB) {
 	router.Use(corsMiddleware())
 
 	routes := router.Group("/api/v1/envio")
-	routes.OPTIONS("", h.Options)
 	routes.POST("", h.PostObjeto)
 	routes.PUT("/atualizar", h.UpdateStatus)
 	routes.GET("/objetos", h.GetObjetos)
@@ -30,6 +29,12 @@ func corsMiddleware() gin.HandlerFunc {
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, CREATE,OPTIONS")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 
-		c.Next()
+		if c.Request.Method == "OPTIONS" {
+			c.AbortWithStatus(200)
+			return
+		} else {
+			c.Next()
+		}
+
 	}
 }
